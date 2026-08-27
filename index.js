@@ -1,4 +1,4 @@
-const { log } = require('console');
+// const { log } = require('console');
 const express = require('express');
 const {v4:uuidv4}=require("uuid")
 const app = express();
@@ -9,6 +9,11 @@ const server=http.createServer(app)
 const io=new Server(server,{cors:{origin:"*",methods:["GET","POST"]}})
 let user=[]
 let message=[]
+
+app.get("/", (req, res) => {
+  res.send("Chat backend is running");
+});
+
 io.on("connection",(socket)=>{
    
     socket.on("join",(userName)=>{
@@ -51,6 +56,8 @@ socket.on("clear",(userName)=>{
     // console.log("user connected",user.map((user)=>(user.userName)))
 })
 
-server.listen(2000,()=>{
-    log("server started")
-})
+const PORT = process.env.PORT || 2000;
+
+server.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
+});
